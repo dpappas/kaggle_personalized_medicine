@@ -57,11 +57,14 @@ def get_ids(vocab, chars):
 
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 
-datadir = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
-fpath1  = datadir + 'training_text'
-fpath2  = datadir + 'training_variants'
-data    = create_data(fpath1, fpath2)
-vocab   = get_the_vocab(data)
+datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
+fpath1      = datadir + 'training_text'
+fpath2      = datadir + 'training_variants'
+train_data  = create_data(fpath1, fpath2)
+fpath1      = datadir + 'test_text'
+fpath2      = datadir + 'test_variants'
+test_data   = create_data(fpath1, fpath2)
+vocab       = get_the_vocab(train_data)
 print(len(vocab))
 # pprint(vocab.most_common(10))
 # pprint(list(reversed(vocab.most_common()[-10:])))
@@ -75,6 +78,8 @@ pprint(char_ids)
 
 pickle.dump(vocab_ids, open('vocab_ids.p','wb'))
 pickle.dump(char_ids, open('char_ids.p','wb'))
+pickle.dump(test_data, open('test_data.p','wb'))
+pickle.dump(train_data, open('train_data.p','wb'))
 
 
 
