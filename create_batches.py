@@ -34,9 +34,11 @@ if not os.path.exists(train_dir):
 if not os.path.exists(test_dir):
     os.makedirs(test_dir)
 
-vocab_ids   = pickle.load(open('vocab_ids.p','rb'))
-test_data   = pickle.load(open('test_data.p','rb'))
-train_data  = pickle.load(open('train_data.p','rb'))
+variation_ids   = pickle.load(open('variation_ids.p','rb'))
+gene_ids        = pickle.load(open('gene_ids.p','rb'))
+vocab_ids       = pickle.load(open('vocab_ids.p','rb'))
+test_data       = pickle.load(open('test_data.p','rb'))
+train_data      = pickle.load(open('train_data.p','rb'))
 
 b_size      = 64
 items       = test_data.items()
