@@ -77,7 +77,6 @@ print(len(vocab))
 chars   = get_the_cahrs(vocab)
 print len(chars)
 print(''.join(chars))
-
 vocab_ids, char_ids = get_ids(vocab, chars)
 # pprint(vocab_ids)
 # pprint(char_ids)
