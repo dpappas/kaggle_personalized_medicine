@@ -24,7 +24,7 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
                 text                = t[1].strip().decode('utf-8')
                 if(discard_parenthesis):
                     text            = remove_parenthesis(text)
-                ret[t[0]]['text']   = sent_tokenize(text)
+                ret[t[0]]['text']   = get_sents(text)
                 pprint(ret[t[0]]['text'])
                 exit()
             m+=1
