@@ -45,14 +45,22 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
     return ret
 
 def get_the_vocab(data, min_freq):
-    vocab = Counter()
+    vocab           = Counter()
+    gene_ids        = []
+    variation_ids   = []
     for item in data.values():
         text                = ' '.join(item['text'])
         text                = bioclean(text)
         text                = re.sub('\d', 'D', text)
         vocab.update(Counter(text.split()))
-    vocab = Counter(dict([item for item in vocab.items() if (item[1] >= min_freq)]))
-    return vocab
+        gene_ids.append(item['gene'])
+        variation_ids.append(item['variation'])
+    gene_ids        = ['PAD', 'UNKN'] + list(set(gene_ids))
+    gene_ids        = dict(zip(gene_ids, range(len(gene_ids))))
+    variation_ids   = ['PAD', 'UNKN'] +list(set(variation_ids))
+    variation_ids   = dict(zip(variation_ids, range(len(variation_ids))))
+    vocab           = Counter(dict([item for item in vocab.items() if (item[1] >= min_freq)]))
+    return vocab, gene_ids, variation_ids
 
 def get_the_chars(vocab):
     chars = []
@@ -150,7 +158,7 @@ train_data  = create_data(fpath1, fpath2, True)
 fpath1      = datadir + 'test_text'
 fpath2      = datadir + 'test_variants'
 test_data   = create_data(fpath1, fpath2, True)
-vocab       = get_the_vocab(train_data, 10)
+vocab, gene_ids, variation_ids = get_the_vocab(train_data, 10)
 chars       = get_the_chars(vocab)
 vocab_ids, char_ids = get_ids(vocab, chars)
 print(len(vocab))
@@ -163,10 +171,12 @@ print(len(vocab))
 
 pprint(test_data.items()[0])
 
-pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
-pickle.dump(char_ids,   open('char_ids.p','wb'))
-pickle.dump(test_data,  open('test_data.p','wb'))
-pickle.dump(train_data, open('train_data.p','wb'))
+pickle.dump(variation_ids,  open('variation_ids.p','wb'))
+pickle.dump(gene_ids,       open('gene_ids.p','wb'))
+pickle.dump(vocab_ids,      open('vocab_ids.p','wb'))
+pickle.dump(char_ids,       open('char_ids.p','wb'))
+pickle.dump(test_data,      open('test_data.p','wb'))
+pickle.dump(train_data,     open('train_data.p','wb'))
 
 
 # for key in test_data:
