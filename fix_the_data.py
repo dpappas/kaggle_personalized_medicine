@@ -82,6 +82,12 @@ vocab_ids, char_ids = get_ids(vocab, chars)
 pprint(vocab_ids)
 pprint(char_ids)
 
+pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
+pickle.dump(char_ids,   open('char_ids.p','wb'))
+pickle.dump(test_data,  open('test_data.p','wb'))
+pickle.dump(train_data, open('train_data.p','wb'))
+
+
 # for key in test_data:
 #     text                        = test_data[key]['text']
 #     test_data[key]['token_ids'] = [ get_token_id(vocab_ids, token) for token in text.split() ]
@@ -93,12 +99,6 @@ pprint(char_ids)
 #     train_data[key]['char_ids']     = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
 #
 # pprint(train_data.items()[0])
-
-pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
-pickle.dump(char_ids,   open('char_ids.p','wb'))
-pickle.dump(test_data,  open('test_data.p','wb'))
-pickle.dump(train_data, open('train_data.p','wb'))
-
 
 
 
