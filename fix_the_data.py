@@ -83,17 +83,17 @@ vocab_ids, char_ids = get_ids(vocab, chars)
 pprint(vocab_ids)
 pprint(char_ids)
 
-for key in test_data:
-    text                        = test_data[key]['text']
-    test_data[key]['token_ids'] = [ get_token_id(vocab_ids, token) for token in text.split() ]
-    test_data[key]['char_ids']  = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
-
-for key in train_data:
-    text                            = train_data[key]['text']
-    train_data[key]['token_ids']    = [ get_token_id(vocab_ids, token) for token in text.split() ]
-    train_data[key]['char_ids']     = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
-
-pprint(train_data.items()[0])
+# for key in test_data:
+#     text                        = test_data[key]['text']
+#     test_data[key]['token_ids'] = [ get_token_id(vocab_ids, token) for token in text.split() ]
+#     test_data[key]['char_ids']  = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
+#
+# for key in train_data:
+#     text                            = train_data[key]['text']
+#     train_data[key]['token_ids']    = [ get_token_id(vocab_ids, token) for token in text.split() ]
+#     train_data[key]['char_ids']     = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
+#
+# pprint(train_data.items()[0])
 
 pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
 pickle.dump(char_ids,   open('char_ids.p','wb'))
