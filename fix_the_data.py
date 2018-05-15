@@ -34,8 +34,7 @@ def create_data(fpath1, fpath2):
 def get_the_vocab(data):
     vocab = Counter()
     for item in data.values():
-        text = item['text']
-        vocab.update(Counter(text.split()))
+        vocab.update(Counter(item['text'].split()))
     vocab = Counter(dict([item for item in vocab.items() if (item[1] > 5)]))
     return vocab
 
