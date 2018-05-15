@@ -1,6 +1,7 @@
 
 import cPickle as pickle
 from pprint import pprint
+import numpy as np
 import os
 import re
 
@@ -18,7 +19,8 @@ def get_ids(text):
 def pad_sent_ids(sent_ids, max_len):
     ret = []
     for item in sent_ids:
-        ret.append(item+ ( (max_len - len(item)) * [0]) )
+        p = (max_len - len(item)) * [0]
+        ret.append(item + p )
     return ret
 
 def batch_from_data(items):
@@ -29,8 +31,17 @@ def batch_from_data(items):
         targets.append(item['class'])
         genes.append(gene_ids[item['gene']])
         variations.append(variation_ids[item['variation']])
-        sent_ids.append(pad_sent_ids([ get_ids(s) for s in item['text']], max_len ))
-
+        sids = [ get_ids(s) for s in item['text']]
+        sids = pad_sent_ids(sids, max_len)
+        sent_ids.append(sids)
+    targets     = np.array(targets)
+    genes       = np.array(genes)
+    variations  = np.array(variations)
+    sent_ids    = np.array(sent_ids)
+    print targets.shape
+    print genes.shape
+    print variations.shape
+    print sent_ids.shape
     exit()
 
 
