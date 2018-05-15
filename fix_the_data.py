@@ -28,6 +28,7 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
                 # pprint(ret[t[0]]['text'])
                 # exit()
             m+=1
+            print m
         f.close()
     with open(fpath2) as f:
         m = 0
@@ -39,6 +40,7 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
                 if(len(t)>3):
                     ret[t[0]]['class'] = int(t[3])
             m+=1
+            print m
         f.close()
     return ret
 
