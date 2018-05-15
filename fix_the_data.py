@@ -13,7 +13,7 @@ def create_data(fpath1, fpath2):
             if(m>0):
                 t = l.strip().split('||')
                 ret[t[0]]           = {}
-                ret[t[0]]['text']   = t[1].decode('utf-8')
+                ret[t[0]]['text']   = sent_tokenize(t[1].strip().decode('utf-8'))
             m+=1
         f.close()
     with open(fpath2) as f:
@@ -32,7 +32,7 @@ def create_data(fpath1, fpath2):
 def get_the_vocab(data, min_freq):
     vocab = Counter()
     for item in data.values():
-        text                = item['text']
+        text                = ' '.join(item['text'])
         text                = bioclean(text)
         text                = re.sub('\d', 'D', text)
         vocab.update(Counter(text.split()))
