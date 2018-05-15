@@ -31,11 +31,11 @@ def create_data(fpath1, fpath2):
         f.close()
     return ret
 
-def get_the_vocab(data):
+def get_the_vocab(data, min_freq):
     vocab = Counter()
     for item in data.values():
         vocab.update(Counter(item['text'].split()))
-    vocab = Counter(dict([item for item in vocab.items() if (item[1] > 5)]))
+    vocab = Counter(dict([item for item in vocab.items() if (item[1] >= min_freq)]))
     return vocab
 
 def get_the_cahrs(vocab):
@@ -70,7 +70,7 @@ train_data  = create_data(fpath1, fpath2)
 fpath1      = datadir + 'test_text'
 fpath2      = datadir + 'test_variants'
 test_data   = create_data(fpath1, fpath2)
-vocab       = get_the_vocab(train_data)
+vocab       = get_the_vocab(train_data, 10)
 print(len(vocab))
 # pprint(vocab.most_common(10))
 # pprint(list(reversed(vocab.most_common()[-10:])))
