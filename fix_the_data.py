@@ -12,7 +12,10 @@ def create_data(fpath1, fpath2):
             if(m>0):
                 t = l.strip().split('||')
                 ret[t[0]]          = {}
-                ret[t[0]]['text']  = t[1].decode('utf-8')
+                text = t[1].decode('utf-8')
+                text = bioclean(text)
+                text = re.sub('\d', 'D', text)
+                ret[t[0]]['text']  = text
             m+=1
         f.close()
     with open(fpath2) as f:
@@ -32,8 +35,6 @@ def get_the_vocab(data):
     vocab = Counter()
     for item in data.values():
         text = item['text']
-        text = bioclean(text)
-        text = re.sub('\d', 'D', text)
         vocab.update(Counter(text.split()))
     vocab = Counter(dict([item for item in vocab.items() if (item[1] > 5)]))
     return vocab
