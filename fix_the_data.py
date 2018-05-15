@@ -11,11 +11,11 @@ def create_data(fpath1, fpath2):
         for l in f.readlines():
             if(m>0):
                 t = l.strip().split('||')
-                ret[t[0]]          = {}
-                text = t[1].decode('utf-8')
-                text = bioclean(text)
-                text = re.sub('\d', 'D', text)
-                ret[t[0]]['text']  = text
+                ret[t[0]]           = {}
+                text                = t[1].decode('utf-8')
+                text                = bioclean(text)
+                text                = re.sub('\d', 'D', text)
+                ret[t[0]]['text']   = text
             m+=1
         f.close()
     with open(fpath2) as f:
@@ -26,7 +26,7 @@ def create_data(fpath1, fpath2):
                 ret[t[0]]['gene']      = t[1].decode('utf-8')
                 ret[t[0]]['variation'] = t[2].decode('utf-8')
                 if(len(t)>3):
-                    ret[t[0]]['class']     = int(t[3])
+                    ret[t[0]]['class'] = int(t[3])
             m+=1
         f.close()
     return ret
@@ -76,9 +76,13 @@ vocab_ids, char_ids = get_ids(vocab, chars)
 pprint(vocab_ids)
 pprint(char_ids)
 
-pickle.dump(vocab_ids, open('vocab_ids.p','wb'))
-pickle.dump(char_ids, open('char_ids.p','wb'))
-pickle.dump(test_data, open('test_data.p','wb'))
+for d in test_data:
+    pprint(test_data[d])
+    exit()
+
+pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
+pickle.dump(char_ids,   open('char_ids.p','wb'))
+pickle.dump(test_data,  open('test_data.p','wb'))
 pickle.dump(train_data, open('train_data.p','wb'))
 
 
