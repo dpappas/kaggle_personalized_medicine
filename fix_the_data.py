@@ -25,8 +25,8 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
                 if(discard_parenthesis):
                     text            = remove_parenthesis(text)
                 ret[t[0]]['text']   = get_sents(text)
-                pprint(ret[t[0]]['text'])
-                exit()
+                # pprint(ret[t[0]]['text'])
+                # exit()
             m+=1
         f.close()
     with open(fpath2) as f:
