@@ -39,7 +39,7 @@ def get_the_vocab(data, min_freq):
     vocab = Counter(dict([item for item in vocab.items() if (item[1] >= min_freq)]))
     return vocab
 
-def get_the_cahrs(vocab):
+def get_the_chars(vocab):
     chars = []
     for k in vocab.keys():
         chars.extend(k)
@@ -136,13 +136,13 @@ fpath1      = datadir + 'test_text'
 fpath2      = datadir + 'test_variants'
 test_data   = create_data(fpath1, fpath2)
 vocab       = get_the_vocab(train_data, 10)
-chars       = get_the_cahrs(vocab)
+chars       = get_the_chars(vocab)
 vocab_ids, char_ids = get_ids(vocab, chars)
 print(len(vocab))
 # pprint(vocab.most_common(10))
 # pprint(list(reversed(vocab.most_common()[-10:])))
-print len(chars)
-print(''.join(chars))
+# print len(chars)
+# print(''.join(chars))
 # pprint(vocab_ids)
 # pprint(char_ids)
 
