@@ -3,6 +3,7 @@ import re
 import cPickle as pickle
 from pprint import pprint
 from collections import Counter
+from nltk.tokenize import sent_tokenize
 
 def create_data(fpath1, fpath2):
     ret     = {}
@@ -12,8 +13,7 @@ def create_data(fpath1, fpath2):
             if(m>0):
                 t = l.strip().split('||')
                 ret[t[0]]           = {}
-                text                = t[1].decode('utf-8')
-                ret[t[0]]['text']   = text
+                ret[t[0]]['text']   = t[1].decode('utf-8')
             m+=1
         f.close()
     with open(fpath2) as f:
@@ -62,6 +62,70 @@ def get_token_id(vocab_ids, token):
     except:
         return vocab_ids['UNKN']
 
+def first_alpha_is_upper(sent):
+    specials = [
+        '__EU__','__SU__','__EMS__','__SMS__','__SI__',
+        '__ESB','__SSB__','__EB__','__SB__','__EI__',
+        '__EA__','__SA__','__SQ__','__EQ__','__EXTLINK',
+        '__XREF','__URI', '__EMAIL','__ARRAY','__TABLE',
+        '__FIG','__AWID','__FUNDS'
+    ]
+    for special in specials:
+        sent = sent.replace(special,'')
+    for c in sent:
+        if(c.isalpha()):
+            if(c.isupper()):
+                return True
+            else:
+                return False
+    return False
+
+def ends_with_special(sent):
+    sent = sent.lower()
+    ind = [item.end() for item in re.finditer('[\W\s]sp.|[\W\s]nos.|[\W\s]figs.|[\W\s]sp.[\W\s]no.|[\W\s][vols.|[\W\s]cv.|[\W\s]fig.|[\W\s]e.g.|[\W\s]et[\W\s]al.|[\W\s]i.e.|[\W\s]p.p.m.|[\W\s]cf.|[\W\s]n.a.', sent)]
+    if(len(ind)==0):
+        return False
+    else:
+        ind = max(ind)
+        if (len(sent) == ind):
+            return True
+        else:
+            return False
+
+def split_sentences2(text):
+    sents = [l.strip() for l in sent_tokenize(text)]
+    ret = []
+    i = 0
+    while (i < len(sents)):
+        sent = sents[i]
+        while (
+            ((i + 1) < len(sents)) and
+            (
+                ends_with_special(sent)        or
+                not first_alpha_is_upper(sents[i+1])
+                # sent[-5:].count('.') > 1       or
+                # sents[i+1][:10].count('.')>1   or
+                # len(sent.split()) < 2          or
+                # len(sents[i+1].split()) < 2
+            )
+        ):
+            sent += ' ' + sents[i + 1]
+            i += 1
+        ret.append(sent.replace('\n',' ').strip())
+        i += 1
+    return ret
+
+def get_sents(ntext):
+    sents = []
+    for subtext in ntext.split('\n'):
+        subtext = re.sub( '\s+', ' ', subtext.replace('\n',' ') ).strip()
+        if (len(subtext) > 0):
+            ss = split_sentences2(subtext)
+            sents.extend([ s for s in ss if(len(s.strip())>0)])
+    if(len(sents[-1]) == 0 ):
+        sents = sents[:-1]
+    return sents
+
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 
 datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
@@ -81,6 +145,8 @@ print len(chars)
 print(''.join(chars))
 # pprint(vocab_ids)
 # pprint(char_ids)
+
+pprint(test_data.items()[0])
 
 pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
 pickle.dump(char_ids,   open('char_ids.p','wb'))
