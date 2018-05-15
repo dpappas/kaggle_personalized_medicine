@@ -5,7 +5,15 @@ from pprint import pprint
 from collections import Counter
 from nltk.tokenize import sent_tokenize
 
-def create_data(fpath1, fpath2):
+def remove_parenthesis(text):
+    while(True):
+        l       = len(text)
+        text    = re.sub('\(.*?\)','',text)
+        if(l!=len(text)):
+            break
+    return text
+
+def create_data(fpath1, fpath2, discard_parenthesis = True):
     ret     = {}
     with open(fpath1) as f:
         m = 0
@@ -13,7 +21,12 @@ def create_data(fpath1, fpath2):
             if(m>0):
                 t = l.strip().split('||')
                 ret[t[0]]           = {}
-                ret[t[0]]['text']   = sent_tokenize(t[1].strip().decode('utf-8'))
+                text                = t[1].strip().decode('utf-8')
+                if(discard_parenthesis):
+                    text            = remove_parenthesis(text)
+                ret[t[0]]['text']   = sent_tokenize(text)
+                pprint(ret[t[0]]['text'])
+                exit()
             m+=1
         f.close()
     with open(fpath2) as f:
@@ -82,7 +95,7 @@ def first_alpha_is_upper(sent):
 
 def ends_with_special(sent):
     sent = sent.lower()
-    ind = [item.end() for item in re.finditer('[\W\s]sp.|[\W\s]nos.|[\W\s]figs.|[\W\s]sp.[\W\s]no.|[\W\s][vols.|[\W\s]cv.|[\W\s]fig.|[\W\s]e.g.|[\W\s]et[\W\s]al.|[\W\s]i.e.|[\W\s]p.p.m.|[\W\s]cf.|[\W\s]n.a.|[\W\s]no.', sent)]
+    ind = [item.end() for item in re.finditer('[\W\s]sp.|[\W\s]nos.|[\W\s]sp.[\W\s]no.|[\W\s][vols.|[\W\s]cv.|[\W\s]e.g.|[\W\s]et[\W\s]al.|[\W\s]i.e.|[\W\s]p.p.m.|[\W\s]cf.|[\W\s]n.a.|[\W\s]no.|[\W\s]fig.|[\W\s]figs.', sent)]
     if(len(ind)==0):
         return False
     else:
@@ -131,10 +144,10 @@ bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"
 datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
 fpath1      = datadir + 'training_text'
 fpath2      = datadir + 'training_variants'
-train_data  = create_data(fpath1, fpath2)
+train_data  = create_data(fpath1, fpath2, True)
 fpath1      = datadir + 'test_text'
 fpath2      = datadir + 'test_variants'
-test_data   = create_data(fpath1, fpath2)
+test_data   = create_data(fpath1, fpath2, True)
 vocab       = get_the_vocab(train_data, 10)
 chars       = get_the_chars(vocab)
 vocab_ids, char_ids = get_ids(vocab, chars)
