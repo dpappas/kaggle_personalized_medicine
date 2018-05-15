@@ -5,10 +5,9 @@ import os
 import re
 
 def get_ids(text):
-    text                = ' '.join(text)
-    text                = bioclean(text)
-    text                = re.sub('\d', 'D', text)
-    ret = []
+    text    = bioclean(text)
+    text    = re.sub('\d', 'D', text)
+    ret     = []
     for token in text.split():
         try:
             ret.append(vocab_ids[token])
@@ -23,12 +22,15 @@ def pad_sent_ids(sent_ids, max_len):
     return ret
 
 def batch_from_data(items):
-    max_len     = max( max(len(s.split()) for s in item['text'] ) for item in items )
+    max_len     = max(max(len(s.split()) for s in item['text'] ) for item in items)
     print max_len
-    genes       = []
-    targets     = []
-    variations  = []
-    sent_ids    = []
+    genes, targets, variations, sent_ids = [], [], [], []
+    for item in items:
+        targets.append(item['class'])
+        genes.append(gene_ids[item['gene']])
+        variations.append(variation_ids[item['variation']])
+        sent_ids.append(pad_sent_ids([ get_ids(s) for s in item['text']], max_len ))
+
     exit()
 
 
@@ -51,7 +53,7 @@ test_data       = pickle.load(open('test_data.p','rb'))
 train_data      = pickle.load(open('train_data.p','rb'))
 
 b_size      = 64
-items       = test_data.values()
+items       = train_data.values()
 for i in range(0, len(items), b_size):
     batch = batch_from_data(items[i:min([i+b_size, len(items)])])
     pprint(batch)
