@@ -71,13 +71,13 @@ fpath1      = datadir + 'test_text'
 fpath2      = datadir + 'test_variants'
 test_data   = create_data(fpath1, fpath2)
 vocab       = get_the_vocab(train_data, 10)
+chars       = get_the_cahrs(vocab)
+vocab_ids, char_ids = get_ids(vocab, chars)
 print(len(vocab))
 # pprint(vocab.most_common(10))
 # pprint(list(reversed(vocab.most_common()[-10:])))
-chars   = get_the_cahrs(vocab)
 print len(chars)
 print(''.join(chars))
-vocab_ids, char_ids = get_ids(vocab, chars)
 # pprint(vocab_ids)
 # pprint(char_ids)
 
