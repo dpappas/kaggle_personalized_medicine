@@ -79,8 +79,8 @@ print len(chars)
 print(''.join(chars))
 
 vocab_ids, char_ids = get_ids(vocab, chars)
-pprint(vocab_ids)
-pprint(char_ids)
+# pprint(vocab_ids)
+# pprint(char_ids)
 
 pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
 pickle.dump(char_ids,   open('char_ids.p','wb'))
