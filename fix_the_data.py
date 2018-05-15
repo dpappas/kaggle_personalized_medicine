@@ -9,7 +9,7 @@ def remove_parenthesis(text):
     while(True):
         l       = len(text)
         text    = re.sub('\(.*?\)','',text)
-        if(l!=len(text)):
+        if(l==len(text)):
             break
     return text
 
