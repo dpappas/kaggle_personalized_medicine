@@ -61,7 +61,6 @@ def get_token_id(vocab_ids, token):
     except:
         return vocab_ids['UNKN']
 
-
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 
 datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
