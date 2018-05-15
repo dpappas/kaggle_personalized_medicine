@@ -22,7 +22,8 @@ def pad_sent_ids(sent_ids, max_sent_len, max_len):
         p = (max_sent_len - len(item)) * [0]
         ret.append(item + p )
     ps = [0] * max_sent_len
-    ret.extend((max_len - len(ret)) * ps)
+    ps = (max_len - len(ret)) * [ps]
+    ret.extend(ps)
     return ret
 
 def batch_from_data(items):
