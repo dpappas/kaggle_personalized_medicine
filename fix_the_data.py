@@ -55,6 +55,13 @@ def get_ids(vocab, chars):
     char_ids['UNKN']   = 1
     return vocab_ids, char_ids
 
+def get_token_id(vocab_ids, token):
+    try:
+        return vocab_ids[token]
+    except:
+        return vocab_ids['UNKN']
+
+
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 
 datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
@@ -76,9 +83,17 @@ vocab_ids, char_ids = get_ids(vocab, chars)
 pprint(vocab_ids)
 pprint(char_ids)
 
-for d in test_data:
-    pprint(test_data[d])
-    exit()
+for key in test_data:
+    text                        = test_data[key]['text']
+    test_data[key]['token_ids'] = [ get_token_id(vocab_ids, token) for token in text.split() ]
+    test_data[key]['char_ids']  = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
+
+for key in train_data:
+    text                            = train_data[key]['text']
+    train_data[key]['token_ids']    = [ get_token_id(vocab_ids, token) for token in text.split() ]
+    train_data[key]['char_ids']     = [ [ get_token_id(char_ids, c) for c in token ] for token in text.split() ]
+
+pprint(train_data.items()[0])
 
 pickle.dump(vocab_ids,  open('vocab_ids.p','wb'))
 pickle.dump(char_ids,   open('char_ids.p','wb'))
