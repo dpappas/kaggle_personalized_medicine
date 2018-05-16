@@ -65,13 +65,18 @@ test_data       = pickle.load(open('test_data.p','rb'))
 train_data      = pickle.load(open('train_data.p','rb'))
 
 b_size      = 64
+
 items       = train_data.values()
 for i in range(0, len(items), b_size):
     batch = batch_from_data(items[i:min([i+b_size, len(items)])])
-    # pprint(batch)
-    # exit()
+    pickle.dump(batch, open(train_dir+'{}.p'.format(i),'wb'))
     print i
 
+items       = test_data.values()
+for i in range(0, len(items), b_size):
+    batch = batch_from_data(items[i:min([i+b_size, len(items)])])
+    pickle.dump(batch, open(test_dir+'{}.p'.format(i),'wb'))
+    print i
 
 
 
