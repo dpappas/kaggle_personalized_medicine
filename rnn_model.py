@@ -25,7 +25,7 @@ print torch.cuda.is_available()
 print torch.cuda.device_count()
 
 use_cuda = torch.cuda.is_available()
-use_cuda = False
+# use_cuda = False
 if(use_cuda):
     torch.cuda.manual_seed(my_seed)
 
@@ -63,6 +63,7 @@ class IR_Embeddings_Modeler(nn.Module):
         self.out_dense      = nn.Linear( 2 * self.hidden_dim_sent, self.out_size, bias=True)
         if(use_cuda):
             self.word_embeddings    = self.word_embeddings.cuda(gpu_device)
+            self.sentence_rnn       = self.sentence_rnn.cuda(gpu_device)
             self.out_dense          = self.out_dense.cuda(gpu_device)
     def get_last(self, matrix, lengths):
         ret = [ matrix[i,lengths[i]-1] for i in range(matrix.size(0)) ]
@@ -95,6 +96,8 @@ class IR_Embeddings_Modeler(nn.Module):
         sentence, target, sentence_len = self.fix_input(sentence, target)
         #
         sent_embeds             = self.word_embeddings(sentence)
+        # if(use_cuda):
+        #     sent_embeds = sent_embeds.cuda(gpu_device)
         #
         sent_h                  = torch.cat(sent_embeds.size(0) * [self.sent_h], dim=1)
         sentence_rnn_out, hn1   = self.sentence_rnn(sent_embeds, sent_h)
@@ -113,8 +116,12 @@ model = IR_Embeddings_Modeler(
     out_size            = 9,
     vocab_size          = 43501,
     embedding_dim       = 50,
-    pool_method         = 'max'
+    pool_method         = 'last'
 )
+
+if(use_cuda):
+    # model = torch.nn.DataParallel(model).cuda()
+    model = model.cuda(gpu_device)
 
 lr          = 0.1
 optimizer   = optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
