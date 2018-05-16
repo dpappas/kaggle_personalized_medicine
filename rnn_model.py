@@ -122,12 +122,11 @@ class IR_Embeddings_Modeler(nn.Module):
         # return losss, F.softmax(d2,-1), sentence_last, ngram_last, sentence_rnn_out, ngram_rnn_out
         return losss, d2, sentence_last, ngram_last, sentence_rnn_out, ngram_rnn_out
 
-
 model = IR_Embeddings_Modeler(
     hidden_dim_sentence = 100,
-    out_size            = 100,
-    vocab_size          = 100,
-    embedding_dim       = 100,
+    out_size            = 9,
+    vocab_size          = 43501,
+    embedding_dim       = 50,
     pool_method         = 'max'
 )
 
