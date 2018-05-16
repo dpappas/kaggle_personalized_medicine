@@ -116,7 +116,7 @@ model = IR_Embeddings_Modeler(
     pool_method         = 'max'
 )
 
-lr          = 0.001
+lr          = 0.1
 optimizer   = optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
 
 diri    = './batches/train/'
