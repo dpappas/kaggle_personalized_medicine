@@ -61,6 +61,7 @@ class IR_Embeddings_Modeler(nn.Module):
             batch_first     = True
         )
         self.out_dense      = nn.Linear( 2 * self.hidden_dim_sent, self.out_size, bias=True)
+        self.loss_fun       = nn.NLLLoss()
         if(use_cuda):
             self.word_embeddings    = self.word_embeddings.cuda(gpu_device)
             self.sentence_rnn       = self.sentence_rnn.cuda(gpu_device)
@@ -103,8 +104,10 @@ class IR_Embeddings_Modeler(nn.Module):
         sentence_rnn_out, hn1   = self.sentence_rnn(sent_embeds, sent_h)
         sentence_last           = self.pool_that_thing(sentence_rnn_out, sentence_len)
         output                  = self.out_dense(sentence_last)
-        output                  = F.softmax(output, -1)
-        losss                   = F.cross_entropy(output, target, weight=None, size_average=True)
+        output                  = F.sigmoid(output)
+        # output                  = F.softmax(output, -1)
+        # losss                   = F.cross_entropy(output, target, weight=None, size_average=True)
+        losss = self.loss_fun(output, target)
         # print(sent_embeds.size())
         # print(sentence_last.size())
         # print(output.size())
