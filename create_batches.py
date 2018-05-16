@@ -29,6 +29,7 @@ def batch_from_data(items):
         try:
             targets.append(item['class'])
         except:
+            # in case of testing adta
             targets.append(0.)
         genes.append(gene_ids[item['gene']])
         variations.append(variation_ids[item['variation']])
