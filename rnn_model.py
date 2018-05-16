@@ -121,11 +121,10 @@ optimizer   = optim.Adam(model.parameters(), lr=lr, betas=(0.9, 0.999), eps=1e-0
 
 diri    = './batches/train/'
 fs      = os.listdir(diri)
-d       = pickle.load(open(diri+fs[0], 'rb'))
-# pprint(d)
-print d['sent_ids'].shape
+print(len(fs))
 
-for i in range(100):
+for f in fs:
+    d = pickle.load(open(diri + f, 'rb'))
     optimizer.zero_grad()
     cost_       = model(d['sent_ids'][:,:50], d['targets'])
     cost_.backward()
