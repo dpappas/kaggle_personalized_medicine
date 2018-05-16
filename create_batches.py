@@ -16,18 +16,14 @@ def get_ids(text):
             ret.append(vocab_ids['UNKN'])
     return ret
 
-def pad_sent_ids(sent_ids, max_sent_len, max_len):
+def pad_ids(ids_list, max_len):
     ret = []
-    for item in sent_ids:
-        p = (max_sent_len - len(item)) * [0]
-        ret.append(item + p )
-    ps = [0] * max_sent_len
-    ps = (max_len - len(ret)) * [ps]
-    ret.extend(ps)
+    for item in ids_list:
+        p = (max_len - len(item)) * [0]
+        ret.append(item + p)
     return ret
 
 def batch_from_data(items):
-    max_len         = max(len(item['text']) for item in items)
     max_sent_len    = max(max(len(s.split()) for s in item['text'] ) for item in items)
     print max_sent_len
     genes, targets, variations, sent_ids = [], [], [], []
@@ -35,9 +31,12 @@ def batch_from_data(items):
         targets.append(item['class'])
         genes.append(gene_ids[item['gene']])
         variations.append(variation_ids[item['variation']])
-        sids = [ get_ids(s) for s in item['text']]
-        sids = pad_sent_ids(sids, max_sent_len, max_len)
+        sids = get_ids(item['text'])
         sent_ids.append(sids)
+    #
+    max_len  = max(len(sid) for sid in sent_ids)
+    sent_ids = pad_ids(sent_ids, max_len)
+    #
     targets     = np.array(targets)
     genes       = np.array(genes)
     variations  = np.array(variations)
@@ -73,15 +72,6 @@ for i in range(0, len(items), b_size):
     batch = batch_from_data(items[i:min([i+b_size, len(items)])])
     pprint(batch)
     exit()
-
-
-for item in items:
-    pprint(item)
-    sent_ids = [ get_ids(sent) for sent in item[1]['text'] ]
-    sent_ids = pad_sent_ids(sent_ids, 100)
-    pprint(sent_ids)
-    exit()
-
 
 
 
