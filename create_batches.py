@@ -31,8 +31,14 @@ def batch_from_data(items):
         else:
             # in case of testing adta
             targets.append(0.)
-        genes.append(gene_ids[item['gene']])
-        variations.append(variation_ids[item['variation']])
+        try:
+            genes.append(gene_ids[item['gene']])
+        except KeyError:
+            genes.append(gene_ids['UNKN'])
+        try:
+            variations.append(variation_ids[item['variation']])
+        except KeyError:
+            variations.append(variation_ids['UNKN'])
         sids = get_ids(item['text'])
         sent_ids.append(sids)
     #
