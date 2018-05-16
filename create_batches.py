@@ -41,11 +41,17 @@ def batch_from_data(items):
     genes       = np.array(genes)
     variations  = np.array(variations)
     sent_ids    = np.array(sent_ids)
-    print targets.shape
-    print genes.shape
-    print variations.shape
-    print sent_ids.shape
-    exit()
+    # print targets.shape
+    # print genes.shape
+    # print variations.shape
+    # print sent_ids.shape
+    # exit()
+    return {
+        'targets'       : targets,
+        'genes'         : genes,
+        'variations'    : variations,
+        'sent_ids'      : sent_ids
+    }
 
 
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
