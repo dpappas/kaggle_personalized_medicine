@@ -76,8 +76,9 @@ b_size      = 64
 items       = train_data.values()
 for i in range(0, len(items), b_size):
     batch = batch_from_data(items[i:min([i+b_size, len(items)])])
-    pprint(batch)
-    exit()
+    # pprint(batch)
+    # exit()
+    print i
 
 
 
