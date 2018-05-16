@@ -123,13 +123,14 @@ diri    = './batches/train/'
 fs      = os.listdir(diri)
 print(len(fs))
 
-for f in fs:
-    d = pickle.load(open(diri + f, 'rb'))
-    optimizer.zero_grad()
-    cost_       = model(d['sent_ids'][:,:50], d['targets']-1)
-    cost_.backward()
-    optimizer.step()
-    the_cost    = cost_.cpu().data.numpy()[0]
-    print the_cost
+for e in range(10):
+    for f in fs[:-5]:
+        d = pickle.load(open(diri + f, 'rb'))
+        optimizer.zero_grad()
+        cost_       = model(d['sent_ids'][:,:50], d['targets']-1)
+        cost_.backward()
+        optimizer.step()
+        the_cost    = cost_.cpu().data.numpy()[0]
+        print the_cost
 
 
