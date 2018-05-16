@@ -124,13 +124,13 @@ fs      = os.listdir(diri)
 print(len(fs))
 
 for e in range(10):
-    for f in fs[:-5]:
-        d = pickle.load(open(diri + f, 'rb'))
+    for i in range(len(fs)-5):
+        d = pickle.load(open(diri + fs[i], 'rb'))
         optimizer.zero_grad()
         cost_       = model(d['sent_ids'][:,:100], d['targets']-1)
         cost_.backward()
         optimizer.step()
         the_cost    = cost_.cpu().data.numpy()[0]
-        print the_cost
+        print e, i, len(fs)-5, the_cost
 
 
