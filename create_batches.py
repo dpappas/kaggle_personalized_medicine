@@ -26,7 +26,10 @@ def pad_ids(ids_list, max_len):
 def batch_from_data(items):
     genes, targets, variations, sent_ids = [], [], [], []
     for item in items:
-        targets.append(item['class'])
+        try:
+            targets.append(item['class'])
+        except:
+            targets.append(0.)
         genes.append(gene_ids[item['gene']])
         variations.append(variation_ids[item['variation']])
         sids = get_ids(item['text'])
