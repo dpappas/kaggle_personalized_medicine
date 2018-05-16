@@ -26,9 +26,9 @@ def pad_ids(ids_list, max_len):
 def batch_from_data(items):
     genes, targets, variations, sent_ids = [], [], [], []
     for item in items:
-        try:
+        if('class' in item.keys()):
             targets.append(item['class'])
-        except:
+        else:
             # in case of testing adta
             targets.append(0.)
         genes.append(gene_ids[item['gene']])
