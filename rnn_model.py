@@ -140,4 +140,3 @@ for e in range(10):
         the_cost    = cost_.cpu().data.numpy()[0]
         print e, i, len(fs)-5, the_cost
 
-
