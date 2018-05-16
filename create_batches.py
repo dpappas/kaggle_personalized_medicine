@@ -24,8 +24,6 @@ def pad_ids(ids_list, max_len):
     return ret
 
 def batch_from_data(items):
-    max_sent_len    = max(max(len(s.split()) for s in item['text'] ) for item in items)
-    # print max_sent_len
     genes, targets, variations, sent_ids = [], [], [], []
     for item in items:
         targets.append(item['class'])
@@ -41,11 +39,6 @@ def batch_from_data(items):
     genes       = np.array(genes)
     variations  = np.array(variations)
     sent_ids    = np.array(sent_ids)
-    # print targets.shape
-    # print genes.shape
-    # print variations.shape
-    # print sent_ids.shape
-    # exit()
     return {
         'targets'       : targets,
         'genes'         : genes,
