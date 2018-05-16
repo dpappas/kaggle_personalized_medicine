@@ -24,9 +24,7 @@ def create_data(fpath1, fpath2, discard_parenthesis = True):
                 text                = t[1].strip().decode('utf-8')
                 if(discard_parenthesis):
                     text            = remove_parenthesis(text)
-                ret[t[0]]['text']   = get_sents(text)
-                # pprint(ret[t[0]]['text'])
-                # exit()
+                ret[t[0]]['text']   = text
             m+=1
             print m
         f.close()
@@ -49,7 +47,7 @@ def get_the_vocab(data, min_freq):
     gene_ids        = []
     variation_ids   = []
     for item in data.values():
-        text                = ' '.join(item['text'])
+        text                = item['text']
         text                = bioclean(text)
         text                = re.sub('\d', 'D', text)
         vocab.update(Counter(text.split()))
