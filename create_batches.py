@@ -25,7 +25,7 @@ def pad_ids(ids_list, max_len):
 
 def batch_from_data(items):
     max_sent_len    = max(max(len(s.split()) for s in item['text'] ) for item in items)
-    print max_sent_len
+    # print max_sent_len
     genes, targets, variations, sent_ids = [], [], [], []
     for item in items:
         targets.append(item['class'])
@@ -52,7 +52,6 @@ def batch_from_data(items):
         'variations'    : variations,
         'sent_ids'      : sent_ids
     }
-
 
 bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 
