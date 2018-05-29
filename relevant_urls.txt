@@ -11,6 +11,62 @@ ANACONDA
 https://conda.io/docs/user-guide/install/windows.html
 https://www.digitalocean.com/community/tutorials/how-to-install-the-anaconda-python-distribution-on-ubuntu-16-04
 
+PyTorch
+https://pytorch.org/
+
+Tensorflow
+https://www.tensorflow.org/install/
+
+KERAS
+https://keras.io/
+
+
+
+If you have installed python
+
+On linux like systems you only have to run the following commands:
+pip install matplotlib
+pip install tensorflow
+pip install TFLearn
+pip install keras
+
+On Windows systems:
+
+-Install Anaconda 64 bit, python 3.6 version from:
+https://www.continuum.io/downloads
+
+-Open Anaconda prompt
+-conda create -n tensorPython3 python=3.5    (in 3.6 if 3.5 does not work)
+-activate tensorPython3
+-conda install numpy pandas jupyter notebook matplotlib
+-conda install scipy h5py
+
+pip install tensorflow
+pip install TFLearn
+pip install keras
+
+-go to this link:
+http://www.lfd.uci.edu/~gohlke/pythonlibs/#curses
+Download curses-2.2-cp35-none-win_amd64.whl
+
+-pip install  curses-2.2-cp35-none-win_amd64.whl
+
+
+
+OR
+
+
+
+1) 	install virtual environment as described in
+	http://www.tylerbutler.com/2012/05/how-to-install-python-pip-and-virtualenv-on-windows-with-powershell/
+	and/or
+	http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/
+
+2) 	activate virtual environment with Python version 3.5
+	also as described in http://python-guide-pt-br.readthedocs.io/en/latest/dev/virtualenvs/
+
+3)	navigate to : http://www.lfd.uci.edu/~gohlke/pythonlibs/#tensorflow
+	install tensorflow wheel file
 
 
 
