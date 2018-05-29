@@ -22,6 +22,10 @@ https://keras.io/
 
 
 
+
+
+
+
 If you have installed python
 
 On linux like systems you only have to run the following commands:
