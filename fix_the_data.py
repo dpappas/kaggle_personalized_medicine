@@ -147,8 +147,7 @@ def get_sents(ntext):
         sents = sents[:-1]
     return sents
 
-bioclean = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
-
+bioclean    = lambda t: ' '.join(re.sub('[.,?;*!%^&_+():-\[\]{}]', '', t.replace('"', '').replace('/', '').replace('\\', '').replace("'", '').strip().lower()).split())
 datadir     = '/home/dpappas/.kaggle/competitions/msk-redefining-cancer-treatment/'
 fpath1      = datadir + 'training_text'
 fpath2      = datadir + 'training_variants'
